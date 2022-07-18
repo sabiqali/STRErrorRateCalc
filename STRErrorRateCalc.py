@@ -28,14 +28,24 @@ args = parser.parse_args()
 ref_file = args.reference
 counts_file = args.counts_file
 loci = args.str_file
-config_fh = open(args.config)
+config_fh = args.config
 
 data = load_counts(counts_file)
 
-config_file_header = config_fh.readline()
+#config_file_header = config_fh.readline()
 #loci_header = loci_fh.readline()
 
-chromosome,begin,end,name,repeat,prefix,suffix = config_fh.readline()
+#chromosome,begin,end,name,repeat,prefix,suffix = config_fh.readline()
+
+with open(config_fh) as f:
+    reader = csv.DictReader(f, delimiter='\t')
+    for row in reader:
+        chromosome = row['chr']
+        begin = row['begin']
+        end = row['end']
+        name = row['name']
+        repeat = row['repeat']
+        break
 
 motif_ref_count = 0
 
@@ -47,7 +57,7 @@ with open(loci) as f:
         if row['chrom'] == chromosome and motif == repeat:
             motif_ref_count = count
 
-print("chromosome\tposition\tmotif\tref_count\tread_name\tread_count")
+print("chromosome\tposition\tmotif\tlocus_name\tref_count\tread_name\tread_count")
 for dt in data:
-    print(f"{chromosome}\t{start}\t{repeat}\t{motif_ref_count}\t{dt}\t{data[dt].count}")
+    print(f"{chromosome}\t{start}\t{repeat}\t{name}\t{motif_ref_count}\t{dt}\t{data[dt].count}")
 
