@@ -59,5 +59,5 @@ with open(loci) as f:
 
 print("chromosome\tposition\tmotif\tlocus_name\tref_count\tread_name\tread_count")
 for dt in data:
-    print(f"{chromosome}\t{start}\t{repeat}\t{name}\t{motif_ref_count}\t{dt}\t{data[dt].count}")
+    print(f"{chromosome}\t{begin}\t{repeat}\t{name}\t{motif_ref_count}\t{dt}\t{data[dt].count}")
 
